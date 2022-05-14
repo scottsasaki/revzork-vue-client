@@ -1,26 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <CommandLook />
+  <img alt="Vue logo" src="./assets/logo.png" />
+
+  <event-list />
+
+  <character-inventory />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CharacterInventory from "./components/CharacterInventory.vue";
+import CommandLook from "./components/CommandLook.vue";
+import EventList from "./components/EventList.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    CharacterInventory,
+    CommandLook,
+    EventList,
+  },
+  computed: {},
+  methods: {},
+};
 </script>
 
 <style>
+@import "./reset.css";
+body {
+  line-height: 1.5rem;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Press Start 2P";
 }
 </style>
