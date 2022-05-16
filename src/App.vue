@@ -1,26 +1,87 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app-container">
+    <!-- Unauth -->
+    <template v-if="!apiKey">
+      <InputApiKey />
+    </template>
+
+    <!-- Authed -->
+    <template v-if="apiKey">
+      <section class="app-container__left"></section>
+      <section class="app-container__center">
+        <img alt="RevZork" src="./assets/logo.svg" />
+        <CommandLook />
+
+        <event-list />
+      </section>
+      <section class="app-container__right">
+        <CharacterMe />
+
+        <CharacterInventory />
+      </section>
+    </template>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapGetters } from "vuex";
+import CharacterInventory from "./components/CharacterInventory.vue";
+import CharacterMe from "./components/CharacterMe.vue";
+import CommandLook from "./components/CommandLook.vue";
+import EventList from "./components/EventList.vue";
+import InputApiKey from "./components/InputApiKey.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    CharacterInventory,
+    CharacterMe,
+    CommandLook,
+    EventList,
+    InputApiKey,
+  },
+  computed: {
+    ...mapGetters(["apiKey"]),
+  },
+  methods: {},
+};
 </script>
 
 <style>
+@import "./reset.css";
+
+body {
+  line-height: 1.25em;
+  color: #ccc;
+  background-color: #121212;
+  padding: 1rem;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: "Open Sans", "Helvetica", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Press Start 2P";
+}
+
+.app-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1rem;
+}
+
+.app-container__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
 }
 </style>
