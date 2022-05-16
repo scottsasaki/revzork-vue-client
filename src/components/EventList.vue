@@ -27,7 +27,10 @@
 
     <section>
       <!-- Actions for last interative event -->
-      <div v-if="history.length" class="actions">
+      <div
+        v-if="history.length && lastEventWithActions.response"
+        class="actions"
+      >
         <div class="actions">
           <CommandMove :exits="lastEventWithActions.response.exits" />
           <CommandLook :exits="lastEventWithActions.response.exits" />
@@ -61,10 +64,7 @@ export default {
   computed: {
     ...mapGetters(["history"]),
     lastEventWithActions() {
-      return this.history.find((event) => event.responseType === 2);
-    },
-    lastEventWithActionsIndex() {
-      return this.history.findIndex((event) => event.responseType === 2);
+      return this.history.findLast((event) => event.responseType === 2) || [];
     },
   },
   methods: {},

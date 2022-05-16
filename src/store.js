@@ -33,6 +33,7 @@ export const store = createStore({
     increment: (state) => state.count++,
     decrement: (state) => state.count--,
     pushHistory: (state, log) => state.history.push(log),
+    resetHistory: (state) => (state.history = []),
     setInventory: (state, inventory) => (state.inventory = inventory),
     setMe: (state, me) => (state.me = me),
     setApiKey: (state, apiKey) => (state.apiKey = apiKey),
@@ -40,6 +41,22 @@ export const store = createStore({
 
   // async stuff
   actions: {
+    async goToOrigin({ commit }) {
+      try {
+        const res = await apiClient.get("/character/origin");
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        commit("resetHistory");
+        commit("pushHistory", response.data);
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
     async lookAround({ commit }) {
       try {
         const res = await apiClient.post("/room/look", {

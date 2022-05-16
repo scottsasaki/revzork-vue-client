@@ -12,10 +12,11 @@
         <img alt="RevZork" src="./assets/logo.svg" />
         <CommandLook />
 
-        <event-list />
+        <EventList />
       </section>
       <section class="app-container__right">
         <CharacterMe />
+        <CharacterOrigin />
 
         <CharacterInventory />
       </section>
@@ -27,6 +28,7 @@
 import { mapGetters } from "vuex";
 import CharacterInventory from "./components/CharacterInventory.vue";
 import CharacterMe from "./components/CharacterMe.vue";
+import CharacterOrigin from "./components/CharacterOrigin.vue";
 import CommandLook from "./components/CommandLook.vue";
 import EventList from "./components/EventList.vue";
 import InputApiKey from "./components/InputApiKey.vue";
@@ -39,6 +41,7 @@ export default {
     CommandLook,
     EventList,
     InputApiKey,
+    CharacterOrigin,
   },
   computed: {
     ...mapGetters(["apiKey"]),
