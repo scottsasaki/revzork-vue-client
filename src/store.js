@@ -4,7 +4,7 @@ import apiClient from "./api.js";
 export const store = createStore({
   state() {
     return {
-      apiKey: "",
+      apiKey: process.env.VUE_APP_API_KEY || "",
       history: [],
       inventory: [],
       me: {},
