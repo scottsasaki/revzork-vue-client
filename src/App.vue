@@ -16,9 +16,16 @@
       </section>
       <section class="app-container__right">
         <CharacterMe />
-        <CharacterOrigin />
+        <GoToCommands />
 
         <CharacterInventory />
+
+        <a
+          href="https://revzork.revunit.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Leaderboard ↗</a
+        >
       </section>
     </template>
   </div>
@@ -28,7 +35,7 @@
 import { mapGetters } from "vuex";
 import CharacterInventory from "./components/CharacterInventory.vue";
 import CharacterMe from "./components/CharacterMe.vue";
-import CharacterOrigin from "./components/CharacterOrigin.vue";
+import GoToCommands from "./components/GoToCommands.vue";
 import CommandLook from "./components/CommandLook.vue";
 import EventList from "./components/EventList.vue";
 import InputApiKey from "./components/InputApiKey.vue";
@@ -41,7 +48,7 @@ export default {
     CommandLook,
     EventList,
     InputApiKey,
-    CharacterOrigin,
+    GoToCommands,
   },
   computed: {
     ...mapGetters(["apiKey"]),

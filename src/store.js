@@ -8,6 +8,7 @@ export const store = createStore({
       history: [],
       inventory: [],
       me: {},
+      settings: {},
     };
   },
 
@@ -36,14 +37,81 @@ export const store = createStore({
     resetHistory: (state) => (state.history = []),
     setInventory: (state, inventory) => (state.inventory = inventory),
     setMe: (state, me) => (state.me = me),
+    setSettings: (state, settings) => (state.settings = settings),
     setApiKey: (state, apiKey) => (state.apiKey = apiKey),
   },
 
   // async stuff
   actions: {
+    async vote({ commit }, { direction, slug }) {
+      try {
+        const res = await apiClient.get("/puzzle/vote", {
+          0: direction,
+          1: slug,
+        });
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        commit("pushHistory", response.data);
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
     async goToOrigin({ commit }) {
       try {
         const res = await apiClient.get("/character/origin");
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        commit("resetHistory");
+        commit("pushHistory", response.data);
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
+    async goToRecall({ commit }) {
+      try {
+        const res = await apiClient.get("/character/recall");
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        commit("resetHistory");
+        commit("pushHistory", response.data);
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
+    async goToResume({ commit }) {
+      try {
+        const res = await apiClient.get("/character/resume");
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        commit("resetHistory");
+        commit("pushHistory", response.data);
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
+    async goToTeleport({ commit }) {
+      try {
+        const res = await apiClient.get("/character/teleport");
         const response = {
           status: res.status + "-" + res.statusText,
           headers: res.headers,
@@ -100,6 +168,7 @@ export const store = createStore({
           data: res.data,
         };
         commit("pushHistory", response.data);
+        store.dispatch("fetchMe");
         store.dispatch("lookAround");
       } catch (err) {
         console.log("error: ", err.response);
@@ -137,11 +206,44 @@ export const store = createStore({
       }
     },
 
+    async inspectDoodad({ commit }, slug) {
+      try {
+        const res = await apiClient.post("/doodad/inspect", {
+          command: `${slug}`,
+        });
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+        commit("pushHistory", response.data);
+        store.dispatch("fetchInventory");
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
     async useDoodad({ commit }, slug) {
       try {
         const res = await apiClient.post("/doodad/use", {
           command: `${slug}`,
         });
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+        commit("pushHistory", response.data);
+        store.dispatch("fetchInventory");
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
+    async useDoodadWith({ commit }, items) {
+      const command = Object.assign({}, items);
+      try {
+        const res = await apiClient.post("/doodad/use", command);
         const response = {
           status: res.status + "-" + res.statusText,
           headers: res.headers,
@@ -163,6 +265,20 @@ export const store = createStore({
           data: res.data,
         };
         commit("setMe", response.data);
+      } catch (err) {
+        console.log("error: ", err.response);
+      }
+    },
+
+    async fetchSettings({ commit }) {
+      try {
+        const res = await apiClient.get("/help/settings");
+        const response = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+        commit("setSettings", response.data);
       } catch (err) {
         console.log("error: ", err.response);
       }
